@@ -12,16 +12,16 @@ public class Triangle {
     /** size of the data members. */
     private static final int HALF_DATA_SIZE = 3;
     /** sum of the data members index (0 + 1 + ... + 5). */
-    public static final int SUM_OF_DATA_INDEX = 12;
+    private static final int SUM_OF_ANGLE_INDEX = 12;
     /** sum of the index of ASA triangle types. */
-    public static final int SUM_OF_ASA_INDEX = 9;
+    private static final int SUM_OF_ASA_INDEX = 9;
     /** sum of the index of SAS triangle types. */
     private static final int SUM_OF_SAS_INDEX = 6;
     /** constant value to round to 2 decimal places. */
     private static final int ROUND = 100;
 
     /** Double array dataMembers - to contain sides and angles in radians. */
-    private double[] dataMembers = new double[DATA_SIZE * 2];
+    private double[] dataMembers = new double[HALF_DATA_SIZE * 2];
     /**
     * string triangle type
     * SSS: 3 sides
@@ -76,22 +76,18 @@ public class Triangle {
 
     private void fillAllSides() {
         int[] validIndex = getValidValues();
-        double side1;
-        double side2;
+        double side1 = dataMembers[validIndex[0]];
+        double side2 = dataMembers[validIndex[1]];
         double side3;
         double angle1;
         double angle2;
         double angle3;
         if (triangleType == "SAS") {
-            side1 = dataMembers[validIndex[0]];
-            side2 = dataMembers[validIndex[1]];
             angle3 = dataMembers[validIndex[2]];
             side3 = Math.sqrt(Math.pow(side1, 2) + Math.pow(side2, 2)
                                 - (2 * side1 * side2 * Math.cos(angle3)));
             this.dataMembers[validIndex[2] - HALF_DATA_SIZE] = side3;
         } else if (triangleType == "SSA") {
-            side1 = dataMembers[validIndex[0]];
-            side2 = dataMembers[validIndex[1]];
             if (validIndex[2] - validIndex[0] == HALF_DATA_SIZE) {
                 angle1 = dataMembers[validIndex[2]];
                 angle2 = Math.asin(side2 * Math.sin(angle1) / side1);
@@ -103,10 +99,10 @@ public class Triangle {
             side3 = side1 * Math.sin(angle3) / Math.sin(angle1);
             this.dataMembers[HALF_DATA_SIZE - validIndex[0]
                              - validIndex[1]] = side3;
-        } else if (triangleType == "ASA") {
+        } else {
             side3 = dataMembers[validIndex[0]];
-            int leftAngleIndex = SUM_OF_DATA_INDEX - validIndex[1]
-                                                   - validIndex[2];
+            int leftAngleIndex = SUM_OF_ANGLE_INDEX - validIndex[1]
+                                                    - validIndex[2];
             if (validIndex[0] + validIndex[1]
                 + validIndex[2] == SUM_OF_ASA_INDEX) {
                 angle1 = dataMembers[validIndex[1]];
@@ -114,12 +110,12 @@ public class Triangle {
                 angle3 = Math.PI - angle1 - angle2;
             } else if (validIndex[0] + leftAngleIndex
                        + validIndex[1] == SUM_OF_ASA_INDEX) {
-                angle2 = validIndex[1];
-                angle3 = validIndex[2];
+                angle2 = dataMembers[validIndex[1]];
+                angle3 = dataMembers[validIndex[2]];
                 angle1 = Math.PI - angle2 - angle3;
             } else {
-                angle2 = validIndex[2];
-                angle3 = validIndex[1];
+                angle2 = dataMembers[validIndex[2]];
+                angle3 = dataMembers[validIndex[1]];
                 angle1 = Math.PI - angle2 - angle3;
             }
             side1 = side3 * Math.sin(angle1) / Math.sin(angle3);
