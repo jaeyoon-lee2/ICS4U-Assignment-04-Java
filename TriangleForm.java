@@ -18,7 +18,8 @@ public final class TriangleForm {
         throw new IllegalStateException("Cannot be instantiated");
     }
     /**
-    * This method ...
+    * This method get three sides and angles
+    * shows information of the triangle.
     * @param args
     */
     public static void main(final String[] args) {

@@ -62,7 +62,7 @@ public class Triangle {
             for (int index = 1; index < HALF_DATA_SIZE; index++) {
                 biggestSide = Math.max(biggestSide, dataMembers[index]);
             }
-            // check there is any sides,
+            // check if there is any sides,
             // sum of angles are pi (180°) or less(if not define),
             // and the biggest side is less than other two sides.
             if ((dataMembers[HALF_DATA_SIZE] + dataMembers[HALF_DATA_SIZE + 1]
@@ -74,6 +74,9 @@ public class Triangle {
         return false;
     }
 
+    /**
+    * This method fills all sides of the triangle.
+    */
     private void fillAllSides() {
         int[] validIndex = getValidValues();
         double side1 = dataMembers[validIndex[0]];
@@ -82,12 +85,12 @@ public class Triangle {
         double angle1;
         double angle2;
         double angle3;
-        if (triangleType == "SAS") {
+        if (triangleType.equals("SAS")) {
             angle3 = dataMembers[validIndex[2]];
             side3 = Math.sqrt(Math.pow(side1, 2) + Math.pow(side2, 2)
                                 - (2 * side1 * side2 * Math.cos(angle3)));
             this.dataMembers[validIndex[2] - HALF_DATA_SIZE] = side3;
-        } else if (triangleType == "SSA") {
+        } else if (triangleType.equals("SSA")) {
             if (validIndex[2] - validIndex[0] == HALF_DATA_SIZE) {
                 angle1 = dataMembers[validIndex[2]];
                 angle2 = Math.asin(side2 * Math.sin(angle1) / side1);
@@ -99,7 +102,7 @@ public class Triangle {
             side3 = side1 * Math.sin(angle3) / Math.sin(angle1);
             this.dataMembers[HALF_DATA_SIZE - validIndex[0]
                              - validIndex[1]] = side3;
-        } else {
+        } else if (triangleType.equals("ASA")) {
             side3 = dataMembers[validIndex[0]];
             int leftAngleIndex = SUM_OF_ANGLE_INDEX - validIndex[1]
                                                     - validIndex[2];
@@ -208,7 +211,7 @@ public class Triangle {
     }
 
     /**
-    * This method returns the max speed.
+    * This method returns the radius of the largest inscribed circle.
     * @param triangleArea
     * @return radius of the largest inscribed circle
     */
